@@ -18,7 +18,7 @@ static void processLine(const std::string& line) {
 static int processFile(const std::string& path) {
     std::ifstream in(path);
     if (!in) {
-        std::cerr << "impossible d'ouvrir le fichier: " << path << "\n";
+        std::cerr << "Cannot open file: " << path << "\n";
         return 84;
     }
 

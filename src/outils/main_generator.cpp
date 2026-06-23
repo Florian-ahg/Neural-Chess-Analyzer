@@ -21,7 +21,7 @@ static bool lire_topologie(const std::string &chemin, std::vector<int> &tailles)
   std::ifstream fichier(chemin);
   if (!fichier.is_open())
   {
-    std::cerr << "Erreur: impossible d'ouvrir le fichier de config: "
+    std::cerr << "Error: cannot open config file: "
               << chemin << std::endl;
     return false;
   }
@@ -33,8 +33,8 @@ static bool lire_topologie(const std::string &chemin, std::vector<int> &tailles)
   {
     if (valeur <= 0)
     {
-      std::cerr << "Erreur: taille de couche invalide (" << valeur
-                << ") dans " << chemin << std::endl;
+      std::cerr << "Error: invalid layer size (" << valeur
+                << ") in " << chemin << std::endl;
       return false;
     }
     tailles.push_back(valeur);
@@ -42,7 +42,7 @@ static bool lire_topologie(const std::string &chemin, std::vector<int> &tailles)
 
   if (tailles.size() < 2)
   {
-    std::cerr << "Erreur: il faut au moins une couche d'entree et une couche de sortie dans "
+    std::cerr << "Error: at least one input and one output layer are required in "
               << chemin << std::endl;
     return false;
   }
@@ -84,12 +84,12 @@ static int generer_pour_config(const std::string &fichier_config, int nb)
 
     if (!sauvegarder_reseau(reseau, nom_fichier))
     {
-      std::cerr << "Erreur: echec de la sauvegarde du reseau dans "
+      std::cerr << "Error: failed to save the network to "
                 << nom_fichier << std::endl;
       return 84;
     }
 
-    std::cout << "Reseau genere: " << nom_fichier << std::endl;
+    std::cout << "Network generated: " << nom_fichier << std::endl;
   }
 
   return 0;
@@ -120,14 +120,14 @@ int main(int argc, char **argv)
     }
     catch (const std::exception &)
     {
-      std::cerr << "Erreur: '" << argv[i + 1]
-                << "' n'est pas un nombre valide." << std::endl;
+      std::cerr << "Error: '" << argv[i + 1]
+                << "' is not a valid number." << std::endl;
       return 84;
     }
 
     if (nb <= 0)
     {
-      std::cerr << "Erreur: le nombre de reseaux a generer doit etre > 0." << std::endl;
+      std::cerr << "Error: the number of networks to generate must be > 0." << std::endl;
       return 84;
     }
 

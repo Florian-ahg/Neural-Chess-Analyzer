@@ -28,7 +28,7 @@ std::vector<double> Network::predict(const std::vector<double> &input)
 
 void Network::train(const std::vector<TrainingData> &dataset, int epochs, double learning_rate)
 {
-    std::cout << "Debut de l'entrainement sur " << dataset.size() << " exemples..." << std::endl;
+    std::cout << "Starting training on " << dataset.size() << " examples..." << std::endl;
 
     std::vector<size_t> indices(dataset.size());
     std::iota(indices.begin(), indices.end(), 0);

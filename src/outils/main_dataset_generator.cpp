@@ -52,7 +52,7 @@ static int translateFenAndLabelFromFile(const std::string &path)
     std::ifstream in(path);
     if (!in)
     {
-        std::cerr << "impossible d'ouvrir le fichier: " << path << "\n";
+        std::cerr << "Cannot open file: " << path << "\n";
         return 84;
     }
 
@@ -75,7 +75,7 @@ int main(int argc, char **argv)
     }
     if (argc < 2)
     {
-        std::cerr << "aucun chemin de fichier fourni.\n";
+        std::cerr << "No file path provided.\n";
         return 84;
     }
     return translateFenAndLabelFromFile(argv[1]);

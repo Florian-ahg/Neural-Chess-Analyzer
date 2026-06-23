@@ -168,32 +168,32 @@ int mode_train(const std::string &fichier_reseau, const std::string &fichier_ech
         data.target = label_vers_sortie(label);
         training_set.push_back(data);
     }
-    std::cout << "Dataset : " << training_set.size() << " exemples." << std::endl;
+    std::cout << "Dataset: " << training_set.size() << " examples." << std::endl;
 
     if (training_set.empty())
     {
-        std::cerr << "Erreur : aucun exemple valide trouve." << std::endl;
+        std::cerr << "Error: no valid example found." << std::endl;
         return 84;
     }
 
-    std::cout << "\n=== DEBUT DE L'ENTRAINEMENT ===" << std::endl;
-    std::cout << "Nombre d'epoques : 300" << std::endl;
-    std::cout << "Learning rate : 0.05" << std::endl
+    std::cout << "\n=== TRAINING START ===" << std::endl;
+    std::cout << "Epochs: 300" << std::endl;
+    std::cout << "Learning rate: 0.05" << std::endl
               << std::endl;
 
     net.train(training_set, 300, 0.05);
 
-    std::cout << "\nMise a jour des poids..." << std::endl;
+    std::cout << "\nUpdating weights..." << std::endl;
     sauvegarder_dans_structure(reseau_struct, net);
 
     std::string dest = fichier_sauvegarde.empty() ? fichier_reseau : fichier_sauvegarde;
     if (!sauvegarder_reseau(reseau_struct, dest))
     {
-        std::cerr << "Erreur : echec de la sauvegarde" << std::endl;
+        std::cerr << "Error: failed to save the network" << std::endl;
         return 84;
     }
 
-    std::cout << "Sauvegarde terminee dans " << dest << std::endl;
+    std::cout << "Saved to " << dest << std::endl;
     return 0;
 }
 

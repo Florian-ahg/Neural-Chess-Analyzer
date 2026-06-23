@@ -7,7 +7,7 @@ bool sauvegarder_reseau(const Reseau &reseau, const std::string &chemin_fichier)
   std::ofstream fichier(chemin_fichier);
   if (!fichier.is_open())
   {
-    std::cerr << "Erreur : impossible d'ouvrir le fichier pour ecriture : "
+    std::cerr << "Error: cannot open file for writing: "
               << chemin_fichier << std::endl;
     return false;
   }
@@ -15,7 +15,7 @@ bool sauvegarder_reseau(const Reseau &reseau, const std::string &chemin_fichier)
   int nb_couches = static_cast<int>(reseau.tailles_couches.size());
   if (nb_couches < 2)
   {
-    std::cerr << "Erreur : le reseau doit avoir au moins 2 couches.\n";
+    std::cerr << "Error: the network must have at least 2 layers.\n";
     return false;
   }
 
@@ -32,7 +32,7 @@ bool sauvegarder_reseau(const Reseau &reseau, const std::string &chemin_fichier)
   if (reseau.biais.size() != static_cast<std::size_t>(nb_couches - 1) ||
       reseau.poids.size() != static_cast<std::size_t>(nb_couches - 1))
   {
-    std::cerr << "Erreur : tailles des vecteurs biais/poids incoherentes.\n";
+    std::cerr << "Error: bias/weight vector sizes are inconsistent.\n";
     return false;
   }
 
@@ -44,8 +44,8 @@ bool sauvegarder_reseau(const Reseau &reseau, const std::string &chemin_fichier)
     if (reseau.biais[c].size() != static_cast<std::size_t>(nb_neurones_couche) ||
         reseau.poids[c].size() != static_cast<std::size_t>(nb_neurones_couche))
     {
-      std::cerr << "Erreur : taille des biais/poids pour la couche " << c + 1
-                << " incoherente.\n";
+      std::cerr << "Error: inconsistent bias/weight size for layer " << c + 1
+                << ".\n";
       return false;
     }
 
@@ -63,8 +63,8 @@ bool sauvegarder_reseau(const Reseau &reseau, const std::string &chemin_fichier)
 
       if (poids_neurone.size() != static_cast<std::size_t>(nb_neurones_precedente))
       {
-        std::cerr << "Erreur : nombre de poids invalide pour la couche "
-                  << c + 1 << ", neurone " << n << ".\n";
+        std::cerr << "Error: invalid number of weights for layer "
+                  << c + 1 << ", neuron " << n << ".\n";
         return false;
       }
 
@@ -86,7 +86,7 @@ bool charger_reseau(Reseau &reseau, const std::string &chemin_fichier)
   std::ifstream fichier(chemin_fichier);
   if (!fichier.is_open())
   {
-    std::cerr << "Erreur : impossible d'ouvrir le fichier pour lecture : "
+    std::cerr << "Error: cannot open file for reading: "
               << chemin_fichier << std::endl;
     return false;
   }
@@ -94,7 +94,7 @@ bool charger_reseau(Reseau &reseau, const std::string &chemin_fichier)
   int nb_couches = 0;
   if (!(fichier >> nb_couches) || nb_couches < 2)
   {
-    std::cerr << "Erreur : nombre de couches invalide dans le fichier.\n";
+    std::cerr << "Error: invalid number of layers in the file.\n";
     return false;
   }
 
@@ -105,7 +105,7 @@ bool charger_reseau(Reseau &reseau, const std::string &chemin_fichier)
   {
     if (!(fichier >> reseau.tailles_couches[i]))
     {
-      std::cerr << "Erreur : lecture de la taille de la couche " << i << " echouee.\n";
+      std::cerr << "Error: failed to read the size of layer " << i << ".\n";
       return false;
     }
   }
@@ -127,8 +127,8 @@ bool charger_reseau(Reseau &reseau, const std::string &chemin_fichier)
     {
       if (!(fichier >> reseau.biais[c][n]))
       {
-        std::cerr << "Erreur : lecture du biais de la couche " << c + 1
-                  << ", neurone " << n << " echouee.\n";
+        std::cerr << "Error: failed to read the bias of layer " << c + 1
+                  << ", neuron " << n << ".\n";
         return false;
       }
     }
@@ -140,9 +140,9 @@ bool charger_reseau(Reseau &reseau, const std::string &chemin_fichier)
       {
         if (!(fichier >> reseau.poids[c][n][p]))
         {
-          std::cerr << "Erreur : lecture du poids (couche " << c + 1
-                    << ", neurone " << n << ", poids " << p
-                    << ") echouee.\n";
+          std::cerr << "Error: failed to read weight (layer " << c + 1
+                    << ", neuron " << n << ", weight " << p
+                    << ").\n";
           return false;
         }
       }

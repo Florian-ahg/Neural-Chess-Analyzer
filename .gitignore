@@ -1,0 +1,28 @@
+# Compiled binaries
+my_torch_analyzer
+my_torch_generator
+my_torch_dataset_generator
+
+# Static library and object files
+*.a
+*.o
+*.obj
+
+# Generated networks (the required pre-trained one, my_torch_network.nn, is kept)
+*.nn
+!my_torch_network.nn
+
+# Training artifacts and heavy datasets (not versioned, see docs)
+train_full.txt
+test_validation.txt
+*_output.log
+dataset/
+
+# Archives
+*.zip
+
+# Editor / OS files
+*.swp
+*~
+.DS_Store
+.vscode/

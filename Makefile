@@ -1,5 +1,6 @@
 NAME_ANALYZER  = my_torch_analyzer
 NAME_GENERATOR = my_torch_generator
+NAME_DATASET   = my_torch_dataset_generator
 LIB_NAME       = lib_my_torch.a
 
 CC       = g++
@@ -23,7 +24,14 @@ OBJ_ANALYZER  = $(SRC_ANALYZER:.cpp=.o)
 SRC_GENERATOR = src/outils/main_generator.cpp
 OBJ_GENERATOR = $(SRC_GENERATOR:.cpp=.o)
 
-all: $(LIB_NAME) $(NAME_ANALYZER) $(NAME_GENERATOR)
+# Dataset generator tool: translates FEN+label lines into network-ready vectors
+SRC_DATASET = src/outils/main_dataset_generator.cpp \
+              src/generator/lib.cpp \
+              src/generator/traduction.cpp \
+              src/generator/parsing.cpp
+OBJ_DATASET = $(SRC_DATASET:.cpp=.o)
+
+all: $(LIB_NAME) $(NAME_ANALYZER) $(NAME_GENERATOR) $(NAME_DATASET)
 
 # Création de la bibliothèque statique
 $(LIB_NAME): $(OBJ_LIB)
@@ -37,16 +45,23 @@ $(NAME_ANALYZER): $(LIB_NAME) $(OBJ_ANALYZER)
 $(NAME_GENERATOR): $(LIB_NAME) $(OBJ_GENERATOR)
 	$(CC) -o $(NAME_GENERATOR) $(OBJ_GENERATOR) -L. -l_my_torch
 
+# Compilation du Dataset Generator (outil autonome)
+$(NAME_DATASET): $(OBJ_DATASET)
+	$(CC) -o $(NAME_DATASET) $(OBJ_DATASET)
+
 # Règles de compilation
 %.o: %.cpp
 	$(CC) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJ_LIB) $(OBJ_ANALYZER) $(OBJ_GENERATOR)
+	rm -f $(OBJ_LIB) $(OBJ_ANALYZER) $(OBJ_GENERATOR) $(OBJ_DATASET)
 
 fclean: clean
-	rm -f $(NAME_ANALYZER) $(NAME_GENERATOR) $(LIB_NAME)
+	rm -f $(NAME_ANALYZER) $(NAME_GENERATOR) $(NAME_DATASET) $(LIB_NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+tests_run: all
+	./tests/test.sh
+
+.PHONY: all clean fclean re tests_run
